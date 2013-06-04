@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.order("title ASC");
+    @products = Product.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -44,11 +44,14 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render json: @product, status: :created, location: @product }
+        format.html { redirect_to @product,
+          notice: 'Product was successfully created.' }
+        format.json { render json: @product, status: :created,
+          location: @product }
       else
         format.html { render action: "new" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json { render json: @product.errors,
+          status: :unprocessable_entity }
       end
     end
   end
@@ -60,11 +63,13 @@ class ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.update_attributes(params[:product])
-        format.html { redirect_to @product, notice: 'Product was successfully updated.' }
+        format.html { redirect_to @product,
+          notice: 'Product was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json { render json: @product.errors,
+          status: :unprocessable_entity }
       end
     end
   end
@@ -80,4 +85,12 @@ class ProductsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def who_bought
+    @product = Product.find(params[:id])
+    respond_to do |format|
+      format.atom
+    end
+  end
 end
+
